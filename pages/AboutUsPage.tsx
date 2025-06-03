@@ -3,9 +3,22 @@
 import type React from "react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
+import Image from "next/image"
 
 interface AboutUsPageProps {
-  navigate: (page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery", projectId?: number) => void
+  navigate: (
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
+    projectId?: number
+  ) => void
   currentPage: string
 }
 
@@ -110,9 +123,11 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigate, currentPage }) => {
                 </p>
               </div>
               <div>
-                <img
-                  src="/placeholder.svg?height=300&width=500"
+                <Image
+                  src="/placeholder.svg"
                   alt="RNADW Founding"
+                  width={500}
+                  height={300}
                   className="rounded-lg shadow-lg"
                 />
               </div>
@@ -120,7 +135,13 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigate, currentPage }) => {
 
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="order-2 md:order-1">
-                <img src="/placeholder.svg?height=300&width=500" alt="RNADW Growth" className="rounded-lg shadow-lg" />
+                <Image
+                  src="/placeholder.svg"
+                  alt="RNADW Growth"
+                  width={500}
+                  height={300}
+                  className="rounded-lg shadow-lg"
+                />
               </div>
               <div className="order-1 md:order-2">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Growth and Development (2010-2015)</h3>
@@ -143,7 +164,13 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigate, currentPage }) => {
                 </p>
               </div>
               <div>
-                <img src="/placeholder.svg?height=300&width=500" alt="RNADW Today" className="rounded-lg shadow-lg" />
+                <Image
+                  src="/placeholder.svg"
+                  alt="RNADW Today"
+                  width={500}
+                  height={300}
+                  className="rounded-lg shadow-lg"
+                />
               </div>
             </div>
           </div>

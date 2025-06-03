@@ -2,12 +2,13 @@
 
 import type React from "react"
 import { useState } from "react"
+import Image from "next/image"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { Play, FileText, Download } from "lucide-react"
 
 interface GalleryPageProps {
-  navigate: (page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery", projectId?: number) => void
+  navigate: (page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail", projectId?: number) => void
   currentPage: string
 }
 
@@ -105,9 +106,11 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ navigate, currentPage }) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {photos.map((photo) => (
                 <div key={photo.id} className="group relative cursor-pointer overflow-hidden rounded-lg shadow-lg">
-                  <img
+                  <Image
                     src={photo.src || "/placeholder.svg"}
                     alt={photo.title}
+                    width={400}
+                    height={300}
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -124,23 +127,25 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ navigate, currentPage }) => {
           {activeTab === "videos" && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {videos.map((video) => (
-                <div key={video.id} className="group relative cursor-pointer overflow-hidden rounded-lg shadow-lg">
-                  <img
-                    src={video.thumbnail || "/placeholder.svg"}
-                    alt={video.title}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                      <Play className="w-8 h-8 text-white ml-1" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                    <h3 className="font-medium text-white">{video.title}</h3>
-                    <p className="text-sm text-gray-300">{video.date}</p>
-                  </div>
-                </div>
-              ))}
+                              <div key={video.id} className="group relative cursor-pointer overflow-hidden rounded-lg shadow-lg">
+                                <Image
+                                  src={video.thumbnail || "/placeholder.svg"}
+                                  alt={video.title}
+                                  width={400}
+                                  height={300}
+                                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                  <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
+                                    <Play className="w-8 h-8 text-white ml-1" />
+                                  </div>
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                                  <h3 className="font-medium text-white">{video.title}</h3>
+                                  <p className="text-sm text-gray-300">{video.date}</p>
+                                </div>
+                              </div>
+                            ))}
             </div>
           )}
 

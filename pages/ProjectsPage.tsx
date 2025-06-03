@@ -4,9 +4,22 @@ import type React from "react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { useProjects } from "../hooks/useProjects"
+import Image from "next/image"
 
 interface ProjectsPageProps {
-  navigate: (page: "home" | "projects" | "project-blog", projectId?: number) => void
+  navigate: (
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
+    projectId?: number
+  ) => void
   currentPage: string
 }
 
@@ -52,9 +65,11 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                   onClick={() => navigate("project-blog", project.id)}
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 >
-                  <img
+                  <Image
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
+                    width={600}
+                    height={192}
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-6">

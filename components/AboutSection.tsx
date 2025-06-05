@@ -15,7 +15,7 @@ const AboutSection: React.FC = () => {
               <div className="relative">
                 {/* Video player */}
                 <video className="w-full h-full object-cover" controls preload="metadata">
-                  <source src="/path/to/video.mp4" type="video/mp4" />
+                  <source src="/videos/teamW.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

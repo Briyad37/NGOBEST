@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { FaPhoneAlt, FaClock, FaMapMarkerAlt } from "react-icons/fa"
 
 interface HeaderProps {
   navigate: (
@@ -11,12 +12,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
-  console.log("Header received navigate:", typeof navigate)
-
   const handleNavigation = (
     page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
   ) => {
-    console.log("handleNavigation called with:", page)
     if (navigate && typeof navigate === "function") {
       navigate(page)
     } else {
@@ -26,23 +24,43 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
 
   return (
     <header className="bg-white shadow-sm">
-      <div className="py-6 px-4">
+      <div className="py-4 px-4 border-b">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="flex items-center space-x-4">
-              <img
-                src="/placeholder.svg?height=32&width=32"
-                alt="RNADW Logo"
-                className="w-8 h-8 object-cover rounded-full"
-              />
-              <div>
-                <div className="text-lg font-bold text-gray-900">RNADW</div>
-                <div className="text-xs font-medium text-green-500">"UMUCYO"</div>
-              </div>
+          {/* Logo and org info */}
+          <div className="flex items-center space-x-4">
+            <img
+              src="/placeholder.svg?height=32&width=32"
+              alt="RNADW Logo"
+              className="w-12 h-12 object-cover rounded-full"
+            />
+            <div>
+              <div className="text-lg font-bold text-gray-900">Rwanda National Association of Deaf Women</div>
+              <div className="text-xs font-medium text-green-500">RNADW "UMUCYO"</div>
             </div>
           </div>
 
-          <nav className="flex items-center space-x-10">
+          {/* Contact Info */}
+          <div className="hidden md:flex items-center space-x-8 text-sm text-gray-700">
+            <div className="flex items-center space-x-2">
+              <FaPhoneAlt className="text-green-500" />
+              <span className="font-medium">+250 784 591 495</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <FaClock className="text-green-500" />
+              <span>Mon - Fri: 9am - 5pm</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <FaMapMarkerAlt className="text-green-500" />
+              <span>Kigali, Rwanda</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Bar */}
+      <div className="py-4 px-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <nav className="flex items-center space-x-8">
             <button
               onClick={() => handleNavigation("home")}
               className={`font-medium transition-colors ${
@@ -91,18 +109,26 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
                   : "text-gray-600 hover:text-green-500"
               }`}
             >
-              Gallery
+              Videos
+            </button>
+            <button
+              onClick={() => handleNavigation("gallery")}
+              className={`font-medium transition-colors ${
+                currentPage === "resources"
+                  ? "text-gray-900 border-b-2 border-green-500 pb-1"
+                  : "text-gray-600 hover:text-green-500"
+              }`}
+            >
+              Resources
             </button>
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault()
                 if (currentPage === "home") {
-                  // Scroll to contact section if on home page
                   const contactSection = document.querySelector("#contact-section")
                   if (contactSection) contactSection.scrollIntoView({ behavior: "smooth" })
                 } else {
-                  // Navigate to home page and then scroll to contact
                   handleNavigation("home")
                   setTimeout(() => {
                     const contactSection = document.querySelector("#contact-section")
@@ -110,7 +136,7 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
                   }, 100)
                 }
               }}
-              className="text-gray-600 hover:text-green-500 transition-colors cursor-pointer"
+              className="text-gray-600 hover:text-green-500 transition-colors cursor-pointer font-medium"
             >
               Contact Us
             </a>

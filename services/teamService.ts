@@ -57,8 +57,9 @@ export const teamService = {
   },
 
   createTeamMember: async (
-    memberData: Omit<TeamMember, "id" | "createdAt" | "updatedAt">,
-  ): Promise<ApiResponse<TeamMember>> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _memberData: Omit<TeamMember, "id" | "createdAt" | "updatedAt">,
+  ): Promise<ApiResponse<TeamMember | null>> => {
     return {
       success: false,
       data: null,
@@ -66,7 +67,8 @@ export const teamService = {
     }
   },
 
-  updateTeamMember: async (id: number, memberData: Partial<TeamMember>): Promise<ApiResponse<TeamMember>> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  updateTeamMember: async (_id: number, _memberData: Partial<TeamMember>): Promise<ApiResponse<TeamMember | null>> => {
     return {
       success: false,
       data: null,
@@ -74,10 +76,11 @@ export const teamService = {
     }
   },
 
-  deleteTeamMember: async (id: number): Promise<ApiResponse<void>> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  deleteTeamMember: async (_id: number): Promise<ApiResponse<void>> => {
     return {
       success: false,
-      data: null,
+      data: undefined,
       error: "Team member deletion not implemented in backend yet",
     }
   },

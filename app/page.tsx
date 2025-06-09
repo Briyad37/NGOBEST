@@ -9,6 +9,8 @@ import GalleryPage from "../pages/GalleryPage"
 import LoginPage from "../pages/LoginPage"
 import DashboardPage from "../pages/DashboardPage"
 import BlogDetailPage from "../pages/BlogDetailPage"
+import VideosPage from "../pages/VideoPages"
+import ResourcesPage from "../pages/ResourcesPage"
 
 type PageType =
   | "home"
@@ -17,6 +19,8 @@ type PageType =
   | "about"
   | "blogs"
   | "gallery"
+  | "videos"
+  | "resources"
   | "login"
   | "dashboard"
   | "blog-detail"
@@ -34,7 +38,6 @@ export default function Page() {
       if (hash === "projects") {
         setCurrentPage("projects")
       } else if (hash.startsWith("project-")) {
-        // Changed from project/6 to project-6
         const id = Number.parseInt(hash.split("-")[1])
         if (!isNaN(id)) {
           setSelectedProjectId(id)
@@ -52,6 +55,10 @@ export default function Page() {
         setCurrentPage("blogs")
       } else if (hash === "gallery") {
         setCurrentPage("gallery")
+      } else if (hash === "videos") {
+        setCurrentPage("videos")
+      } else if (hash === "resources") {
+        setCurrentPage("resources")
       } else if (hash === "login") {
         setCurrentPage("login")
       } else if (hash === "dashboard") {
@@ -72,6 +79,7 @@ export default function Page() {
 
   const navigate = (page: PageType, projectId?: number) => {
     console.log("Navigate called with:", page, projectId)
+
     if (page === "home") {
       window.location.hash = ""
       setCurrentPage("home")
@@ -95,6 +103,12 @@ export default function Page() {
     } else if (page === "gallery") {
       window.location.hash = "gallery"
       setCurrentPage("gallery")
+    } else if (page === "videos") {
+      window.location.hash = "videos"
+      setCurrentPage("videos")
+    } else if (page === "resources") {
+      window.location.hash = "resources"
+      setCurrentPage("resources")
     } else if (page === "login") {
       window.location.hash = "login"
       setCurrentPage("login")
@@ -105,6 +119,8 @@ export default function Page() {
   }
 
   const renderPage = () => {
+    console.log("Rendering page for currentPage:", currentPage)
+
     switch (currentPage) {
       case "home":
         return <HomePage navigate={navigate} currentPage={currentPage} />
@@ -118,6 +134,10 @@ export default function Page() {
         return <BlogsPage navigate={navigate} currentPage={currentPage} />
       case "gallery":
         return <GalleryPage navigate={navigate} currentPage={currentPage} />
+      case "videos":
+        return <VideosPage navigate={navigate} currentPage={currentPage} />
+      case "resources":
+        return <ResourcesPage navigate={navigate} currentPage={currentPage} />
       case "login":
         return <LoginPage navigate={navigate} currentPage={currentPage} />
       case "dashboard":

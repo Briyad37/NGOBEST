@@ -11,7 +11,18 @@ import Footer from "./components/Footer"
 
 interface HomePageProps {
   navigate: (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "videos"
+      | "resources"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
     projectId?: number,
   ) => void
   currentPage: string

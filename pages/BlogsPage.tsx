@@ -6,8 +6,21 @@ import Footer from "../components/Footer"
 import { Calendar, User, ArrowRight } from "lucide-react"
 import { useBlogs } from "../hooks/useBlogs"
 
+type Page =
+  | "home"
+  | "projects"
+  | "project-blog"
+  | "about"
+  | "blogs"
+  | "gallery"
+  | "login"
+  | "dashboard"
+  | "blog-detail"
+  | "videos"
+  | "resources"
+
 interface BlogsPageProps {
-  navigate: (page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery", projectId?: number) => void
+  navigate: (page: Page, projectId?: number) => void
   currentPage: string
 }
 
@@ -18,7 +31,6 @@ const BlogsPage: React.FC<BlogsPageProps> = ({ navigate, currentPage }) => {
     <div className="min-h-screen bg-white">
       <Header navigate={navigate} currentPage={currentPage} />
 
-      {/* Hero Section */}
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto text-center">
           <span className="text-green-500 font-medium">Stay Informed</span>
@@ -30,7 +42,6 @@ const BlogsPage: React.FC<BlogsPageProps> = ({ navigate, currentPage }) => {
         </div>
       </section>
 
-      {/* Blog Grid */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           {loading ? (
@@ -84,7 +95,6 @@ const BlogsPage: React.FC<BlogsPageProps> = ({ navigate, currentPage }) => {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="mt-12 flex justify-center">
             <div className="flex space-x-2">
               <button className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300">

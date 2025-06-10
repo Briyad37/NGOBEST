@@ -36,12 +36,7 @@ export function useVideos() {
 
   const fetchVideos = async () => {
     // ...existing code...
-    if (!usingFallback && API_CONFIG.USE_API) {
-      console.log("Tracking video view for ID:", videoId)
-      await apiCall(`${API_CONFIG.ENDPOINTS.VIDEOS}/${videoId}/view`, {
-        method: "POST",
-      })
-    }
+    
 // ...existing code...
     try {
       setLoading(true)
@@ -85,8 +80,12 @@ export function useVideos() {
           id: Number(apiVideo.id),
           title: apiVideo.title || "Untitled Video",
           description: apiVideo.description || "No description available",
-          thumbnail: apiVideo.thumbnail_url || "/placeholder.svg?height=300&width=400",
-          videoUrl: apiVideo.url || "",
+          thumbnail: apiVideo.thumbnail_url.startsWith("http")
+            ? apiVideo.thumbnail_url
+            : `${API_CONFIG.BASE_URL}${apiVideo.thumbnail_url}`,
+          videoUrl: apiVideo.url.startsWith("http")
+            ? apiVideo.url
+            : `${API_CONFIG.BASE_URL}${apiVideo.url}`,
           date: formatDate(apiVideo.created_at),
           duration: apiVideo.duration || "00:00",
           views: apiVideo.views || 0,

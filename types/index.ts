@@ -3,7 +3,7 @@ export interface Project {
   title: string
   description: string
   content?: string
-  image: string
+  thumbnail: string
   category: string
   date: string
   author?: string

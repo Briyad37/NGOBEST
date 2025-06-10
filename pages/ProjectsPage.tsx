@@ -59,14 +59,14 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
+              {projects.map((project, idx) => (
                 <div
-                  key={project.id}
+                  key={project.id || idx}
                   onClick={() => navigate("project-blog", project.id)}
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 >
                   <Image
-                    src={project.image || "/placeholder.svg"}
+                    src={project.thumbnail|| ""}
                     alt={project.title}
                     width={600}
                     height={192}

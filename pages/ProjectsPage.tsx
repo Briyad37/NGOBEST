@@ -66,7 +66,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 >
                   <Image
-                    src={project.thumbnail|| ""}
+                    src={project.thumbnail}
                     alt={project.title}
                     width={600}
                     height={192}

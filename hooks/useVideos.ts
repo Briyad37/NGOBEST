@@ -12,15 +12,10 @@ interface ApiVideoResponse {
 }
 
 interface ApiVideo {
-  id: number | string
-  title: string
-  description: string
+  _id: string
   url: string
-  thumbnail_url: string
-  created_at: string
-  duration: string
-  views: number
-  category: string
+  alt: string
+  // +
 }
 
 export function useVideos() {
@@ -77,21 +72,16 @@ export function useVideos() {
 
         // Transform API data to our application format
         const transformedVideos = videosArray.map((apiVideo) => ({
-          id: Number(apiVideo.id),
-          title: apiVideo.title || "Untitled Video",
-          description: apiVideo.description || "No description available",
-          thumbnail: apiVideo.thumbnail_url.startsWith("http")
-            ? apiVideo.thumbnail_url
-            : `${API_CONFIG.BASE_URL}${apiVideo.thumbnail_url}`,
-          videoUrl: apiVideo.url.startsWith("http")
-            ? apiVideo.url
-            : `${API_CONFIG.BASE_URL}${apiVideo.url}`,
-          date: formatDate(apiVideo.created_at),
-          duration: apiVideo.duration || "00:00",
-          views: apiVideo.views || 0,
-          category: apiVideo.category || "uncategorized",
-        }))
-
+        id: apiVideo._id,
+        title: apiVideo.alt || "Untitled Video",
+        description: "", 
+        thumbnail: "",   
+        videoUrl: apiVideo.url,
+        date: "",        
+        duration: "",   
+        views: 0,        
+        category: "",
+      }))
         setVideos(transformedVideos)
         console.log("Videos fetched successfully from API:", transformedVideos.length, "videos")
       } else {

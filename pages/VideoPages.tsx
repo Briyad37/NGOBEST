@@ -122,19 +122,9 @@ const VideosPage: React.FC<VideosPageProps> = ({ navigate, currentPage }) => {
         <section className="py-4 px-4 bg-blue-50 border-b border-blue-200">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-center space-x-3 text-blue-800">
-              <div className="w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                <WifiOff className="w-3 h-3 text-blue-900" />
-              </div>
-              <span className="text-sm font-medium">
-                {API_CONFIG.USE_API
-                  ? "API temporarily unavailable - showing sample RNADW content"
-                  : "Showing sample RNADW content (API disabled)"}
-              </span>
-              {API_CONFIG.USE_API && (
-                <button onClick={() => refetch()} className="text-sm text-blue-700 hover:text-blue-900 underline">
-                  Try reconnecting
-                </button>
-              )}
+              
+              
+              
             </div>
           </div>
         </section>

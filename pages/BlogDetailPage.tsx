@@ -8,8 +8,19 @@ import { useBlog } from "../hooks/useBlogs"
 
 interface BlogDetailPageProps {
   navigate: (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "blog-detail",
-    projectId?: number,
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "blog-detail"
+      | "login"
+      | "dashboard"
+      | "videos"
+      | "resources",
+    projectId?: number
   ) => void
   blogId: number
   currentPage: string
@@ -23,16 +34,14 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ navigate, blogId, curre
       <div className="min-h-screen bg-white">
         <Header navigate={navigate} currentPage={currentPage} />
         <div className="py-20 px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-              <div className="h-12 bg-gray-200 rounded w-3/4 mb-4"></div>
-              <div className="h-64 bg-gray-200 rounded mb-8"></div>
-              <div className="space-y-4">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                <div className="h-4 bg-gray-200 rounded w-4/6"></div>
-              </div>
+          <div className="max-w-4xl mx-auto animate-pulse space-y-6">
+            <div className="h-8 bg-gray-200 rounded w-1/4" />
+            <div className="h-12 bg-gray-200 rounded w-3/4" />
+            <div className="h-64 bg-gray-200 rounded" />
+            <div className="space-y-4">
+              <div className="h-4 bg-gray-200 rounded" />
+              <div className="h-4 bg-gray-200 rounded w-5/6" />
+              <div className="h-4 bg-gray-200 rounded w-4/6" />
             </div>
           </div>
         </div>
@@ -44,8 +53,8 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ navigate, blogId, curre
     return (
       <div className="min-h-screen bg-white">
         <Header navigate={navigate} currentPage={currentPage} />
-        <div className="py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="py-20 px-4 text-center">
+          <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Blog Post Not Found</h1>
             <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
             <button
@@ -81,9 +90,11 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ navigate, blogId, curre
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">{blog.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            {blog.title}
+          </h1>
 
-          <div className="flex items-center space-x-6 text-gray-600 mb-8">
+          <div className="flex flex-wrap items-center space-x-6 text-gray-600 mb-8">
             <div className="flex items-center">
               <Calendar className="w-5 h-5 mr-2" />
               <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
@@ -114,14 +125,12 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ navigate, blogId, curre
       {/* Content */}
       <section className="py-12 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="prose prose-lg max-w-none">
-            <div className="text-gray-700 leading-relaxed space-y-6">
-              {blog.content.split("\n\n").map((paragraph, index) => (
-                <p key={index} className="text-lg leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+          <div className="text-gray-700 leading-relaxed space-y-6">
+            {blog.content.split("\n\n").map((paragraph, index) => (
+              <p key={index} className="text-lg leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
 
           {/* Tags */}
@@ -133,7 +142,10 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ navigate, blogId, curre
               </div>
               <div className="flex flex-wrap gap-2">
                 {blog.tags.map((tag, index) => (
-                  <span key={index} className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full"
+                  >
                     {tag}
                   </span>
                 ))}

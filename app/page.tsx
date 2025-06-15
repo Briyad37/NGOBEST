@@ -23,7 +23,8 @@ type PageType =
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<PageType>("home")
-  const [selectedProjectId, setSelectedProjectId] = useState<number>(1)
+  // FIXED: Changed from number to string | number to support MongoDB ObjectIds
+  const [selectedProjectId, setSelectedProjectId] = useState<string | number>(1)
   const [selectedBlogId, setSelectedBlogId] = useState<number>(1)
 
   // Simple hash-based routing that works in preview
@@ -34,9 +35,10 @@ export default function Page() {
       if (hash === "projects") {
         setCurrentPage("projects")
       } else if (hash.startsWith("project-")) {
-        // Changed from project/6 to project-6
-        const id = Number.parseInt(hash.split("-")[1])
-        if (!isNaN(id)) {
+        // FIXED: Don't parse as number - keep as string for MongoDB ObjectIds
+        const id = hash.split("-")[1]
+        if (id) {
+          console.log("Setting project ID from hash:", id)
           setSelectedProjectId(id)
           setCurrentPage("project-blog")
         }
@@ -70,7 +72,8 @@ export default function Page() {
     return () => window.removeEventListener("hashchange", handleHashChange)
   }, [])
 
-  const navigate = (page: PageType, projectId?: number) => {
+  // FIXED: Updated navigate function to accept string | number for projectId
+  const navigate = (page: PageType, projectId?: number | string) => {
     console.log("Navigate called with:", page, projectId)
     if (page === "home") {
       window.location.hash = ""
@@ -79,12 +82,13 @@ export default function Page() {
       window.location.hash = "projects"
       setCurrentPage("projects")
     } else if (page === "project-blog" && projectId) {
+      console.log("Setting hash to:", `project-${projectId}`)
       window.location.hash = `project-${projectId}`
       setSelectedProjectId(projectId)
       setCurrentPage("project-blog")
     } else if (page === "blog-detail" && projectId) {
       window.location.hash = `blog-${projectId}`
-      setSelectedBlogId(projectId)
+      setSelectedBlogId(Number(projectId)) // Convert to number for blogs
       setCurrentPage("blog-detail")
     } else if (page === "about") {
       window.location.hash = "about"

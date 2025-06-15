@@ -1,76 +1,74 @@
-export interface Project {
-  id: number
-  title: string
-  description: string
-  content?: string
-  thumbnail: string
-  image?:string    //added this line
-  category: string
-  date: string
-  author?: string
-  tags?: string[]
-  status: "active" | "completed" | "upcoming"
-  createdAt: string
-  updatedAt: string
+// API Response wrapper
+export interface ApiResponse<T> {
+  success: boolean
+  data: T | null
+  error?: string
+  message?: string
 }
 
+// Project interface - updated to match your API response
+export interface Project {
+  _id: string // MongoDB ObjectId
+  id?: number // Optional fallback ID
+  title: string
+  description?: string
+  content?: string // Long form content
+  details?: string // API returns this field
+  summary?: string // API returns this field
+  image?: string
+  thumbnail?: string
+  category?: string
+  date?: string
+  author?: string
+  tags?: string[]
+  createdAt?: string
+  updatedAt?: string
+  // Add any other fields your API returns
+  status?: string
+  featured?: boolean
+}
+
+// Blog interface (if you have blogs)
+export interface Blog {
+  id: number
+  title: string
+  content: string
+  excerpt?: string
+  author?: string
+  date?: string
+  category?: string
+  tags?: string[]
+  image?: string
+}
+
+// User interface (if you have authentication)
+export interface User {
+  id: number
+  name: string
+  email: string
+  role?: string
+}
+
+// Team member interface (if you have team section)
 export interface TeamMember {
   id: number
   name: string
   position: string
-  image: string
   bio?: string
-  email?: string
-  createdAt: string
-  updatedAt: string
+  image?: string
+  social?: {
+    linkedin?: string
+    twitter?: string
+    email?: string
+  }
 }
 
+// Gallery item interface (if you have gallery)
 export interface GalleryItem {
   id: number
   title: string
-  type: "image" | "video"
-  url: string
-  thumbnail?: string
   description?: string
-  createdAt: string
-  updatedAt: string
-}
-
-export interface Partner {
-  id: number
-  name: string
-  logo: string
-  website?: string
-  description?: string
-  createdAt: string
-  updatedAt: string
-}
-
-export interface BlogPost {
-  id: number
-  title: string
-  content: string
-  excerpt: string
   image: string
-  author: string
-  category: string
-  tags: string[]
-  published: boolean
-  createdAt: string
-  updatedAt: string
-}
-
-export interface ContactMessage {
-  firstName: string
-  lastName: string
-  email: string
-  subject: string
-  message: string
-}
-
-export interface ApiResponse<T> {
-  success: boolean
-  data: T | null
-  message?: string
-  error?: string
+  category?: string
+  date?: string
 }

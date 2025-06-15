@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { projectService, FALLBACK_PROJECTS } from "../services/projectService"
+import { projectService } from "../services/projectService"
 import type { Project } from "../types"
 
 export const useProjects = () => {
@@ -14,23 +14,21 @@ export const useProjects = () => {
       setError(null)
 
       try {
+        console.log("Fetching projects from API...")
         const response = await projectService.getAllProjects()
 
         if (response.success && response.data) {
+          console.log("Projects fetched successfully:", response.data.length, "projects")
           setProjects(response.data)
-          // Show info message if using fallback data
-          if (response.message) {
-            console.info("Projects:", response.message)
-          }
         } else {
-          // Fallback to local data
-          setProjects(FALLBACK_PROJECTS)
+          console.error("API Error:", response.error)
+          setProjects([]) // No fallback data - API only
           setError(response.error || "Failed to fetch projects")
         }
       } catch (err) {
-        console.warn("Network error, using fallback data:", err)
-        setProjects(FALLBACK_PROJECTS)
-        setError("Network error - using local data")
+        console.error("Network error fetching projects:", err)
+        setProjects([]) // No fallback data - API only
+        setError("Network error - please check your connection")
       } finally {
         setLoading(false)
       }
@@ -48,37 +46,3 @@ export const useProjects = () => {
 
   return { projects, loading, error, refreshProjects }
 }
-
-// export const useProject = (id: number) => {
-//   const [project, setProject] = useState<Project | null>(null)
-//   const [loading, setLoading] = useState(true)
-//   const [error, setError] = useState<string | null>(null)
-
-//   useEffect(() => {
-//     const fetchProject = async () => {
-//       setLoading(true)
-//       setError(null)
-
-//       try {
-//         const response = await projectService.getProjectById(id)
-
-//         if (response.success && response.data) {
-//           setProject(response.data)
-//         } else {
-//           setProject(null)
-//           setError(response.error || "Failed to fetch project")
-//         }
-//       } catch (err) {
-//         const fallbackProject = FALLBACK_PROJECTS.find((p) => p.id === id)
-//         setProject(fallbackProject || null)
-//         setError("Network error - using local data")
-//       } finally {
-//         setLoading(false)
-//       }
-//     }
-
-//     fetchProject()
-//   }, [id])
-
-//   return { project, loading, error }
-// }

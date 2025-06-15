@@ -1,38 +1,55 @@
 "use client"
+
 import { useState, useEffect } from "react"
-import { projectService, FALLBACK_PROJECTS } from "../services/projectService"
+import { projectService } from "../services/projectService"
 import type { Project } from "../types"
 
-export const useProject = (id: number) => {
+export function useProject(projectId: number | string) {
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProject = async () => {
-      setLoading(true)
-      setError(null)
+      if (!projectId) {
+        setError("No project ID provided")
+        setLoading(false)
+        return
+      }
 
       try {
-        const response = await projectService.getProjectById(id)
+        setLoading(true)
+        setError(null)
 
-        if (response.success) {
+        console.log("=== FETCHING PROJECT DEBUG ===")
+        console.log("Project ID:", projectId)
+        console.log("Project ID type:", typeof projectId)
+
+        // Fetch from real API
+        const response = await projectService.getProjectById(projectId)
+
+        console.log("API Response:", response)
+        console.log("Response success:", response.success)
+        console.log("Response data:", response.data)
+        console.log("Response error:", response.error)
+
+        if (response.success && response.data) {
+          console.log("✅ Project fetched successfully:", response.data.title)
           setProject(response.data)
         } else {
-          setProject(null)
-          setError(response.error || "Failed to fetch project")
+          console.error("❌ API Error:", response.error)
+          setError(response.error || "Project not found")
         }
       } catch (err) {
-        const fallbackProject = FALLBACK_PROJECTS.find((p) => p.id === id)
-        setProject(fallbackProject || null)
-        setError("Network error")
+        console.error("❌ Network error fetching project:", err)
+        setError("Failed to fetch project - network error")
       } finally {
         setLoading(false)
       }
     }
 
     fetchProject()
-  }, [id])
+  }, [projectId])
 
   return { project, loading, error }
 }

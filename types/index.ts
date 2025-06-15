@@ -4,6 +4,7 @@ export interface Project {
   description: string
   content?: string
   thumbnail: string
+  image?:string    //added this line
   category: string
   date: string
   author?: string
@@ -69,7 +70,7 @@ export interface ContactMessage {
 
 export interface ApiResponse<T> {
   success: boolean
-  data: T
+  data: T | null
   message?: string
   error?: string
 }

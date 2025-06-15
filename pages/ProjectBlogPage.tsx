@@ -3,17 +3,45 @@
 import type React from "react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
-import { ArrowLeft, Calendar, Tag, Share2 } from "lucide-react"
+import { ArrowLeft, Calendar, Tag, Share2 } from 'lucide-react'
 import { useProject } from "../hooks/useProject"
 
 interface ProjectBlogPageProps {
-  navigate: (page: "home" | "projects" | "project-blog", projectId?: number) => void
+  navigate: (
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
+    projectId?: number
+  ) => void
   projectId: number
   currentPage: string
 }
 
 const ProjectBlogPage: React.FC<ProjectBlogPageProps> = ({ navigate, projectId, currentPage }) => {
   const { project, loading, error } = useProject(projectId)
+
+  // Simple function to check if image URL is valid (not PDF)
+  const hasValidImage = (project: any) => {
+    const imageUrl = project?.image || project?.thumbnail
+    return imageUrl && !imageUrl.includes('.pdf') && !imageUrl.includes('undefined')
+  }
+
+  const getImageUrl = (project: any) => {
+    if (project?.image && !project.image.includes('.pdf')) {
+      return project.image
+    }
+    if (project?.thumbnail && !project.thumbnail.includes('.pdf')) {
+      return project.thumbnail
+    }
+    return null
+  }
 
   if (loading) {
     return (
@@ -58,8 +86,8 @@ const ProjectBlogPage: React.FC<ProjectBlogPageProps> = ({ navigate, projectId, 
   }
 
   const relatedProjects = [
-    { id: 2, title: "Health and Wellness Program", image: "/placeholder.svg?height=200&width=300" },
-    { id: 3, title: "Economic Empowerment Initiative", image: "/placeholder.svg?height=200&width=300" },
+    { id: 2, title: "Health and Wellness Program" },
+    { id: 3, title: "Economic Empowerment Initiative" },
   ].filter((p) => p.id !== projectId)
 
   return (
@@ -101,16 +129,24 @@ const ProjectBlogPage: React.FC<ProjectBlogPageProps> = ({ navigate, projectId, 
         </div>
       </section>
 
-      {/* Featured Image */}
-      <section className="px-4">
-        <div className="max-w-4xl mx-auto">
-          <img
-            src={project.image || "/placeholder.svg"}
-            alt={project.title}
-            className="w-full h-96 object-cover rounded-lg shadow-lg"
-          />
-        </div>
-      </section>
+      {/* Featured Image - only show if valid image exists */}
+      {hasValidImage(project) && (
+        <section className="px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="w-full h-96 bg-gray-100 rounded-lg overflow-hidden shadow-lg">
+              <img
+                src={getImageUrl(project) || "/placeholder.svg"}
+                alt={project.title}
+                className="w-full h-96 object-cover rounded-lg shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement
+                  target.style.display = 'none'
+                }}
+              />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Content */}
       <section className="py-12 px-4">
@@ -162,11 +198,7 @@ const ProjectBlogPage: React.FC<ProjectBlogPageProps> = ({ navigate, projectId, 
                   onClick={() => navigate("project-blog", relatedProject.id)}
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 >
-                  <img
-                    src={relatedProject.image || "/placeholder.svg"}
-                    alt={relatedProject.title}
-                    className="w-full h-48 object-cover"
-                  />
+                  <div className="w-full h-48 bg-gray-100"></div>
                   <div className="p-6">
                     <h4 className="text-lg font-bold text-gray-900 mb-2">{relatedProject.title}</h4>
                     <span className="text-green-500 font-medium hover:text-green-600">Read More →</span>

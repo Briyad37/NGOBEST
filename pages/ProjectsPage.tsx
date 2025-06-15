@@ -26,6 +26,22 @@ interface ProjectsPageProps {
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) => {
   const { projects, loading, error } = useProjects()
 
+  // Simple function to check if image URL is valid (not PDF)
+  const hasValidImage = (project: any) => {
+    const imageUrl = project.thumbnail || project.image
+    return imageUrl && !imageUrl.includes('.pdf') && !imageUrl.includes('undefined')
+  }
+
+  const getImageUrl = (project: any) => {
+    if (project.thumbnail && !project.thumbnail.includes('.pdf')) {
+      return project.thumbnail
+    }
+    if (project.image && !project.image.includes('.pdf')) {
+      return project.image
+    }
+    return null
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header navigate={navigate} currentPage={currentPage} />
@@ -65,13 +81,23 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                   onClick={() => navigate("project-blog", project.id)}
                   className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
                 >
-                  <Image
-                    src={project.thumbnail}
-                    alt={project.title}
-                    width={600}
-                    height={192}
-                    className="w-full h-48 object-cover"
-                  />
+                  {/* Image section - show blank if no valid image */}
+                  {hasValidImage(project) ? (
+                    <div className="w-full h-48 overflow-hidden">
+                      <img
+                        src={getImageUrl(project) || "/placeholder.svg"}
+                        alt={project.title}
+                        className="w-full h-48 object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.style.display = 'none'
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100"></div>
+                  )}
+                  
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
                       <span className="px-3 py-1 bg-green-100 text-green-600 text-sm font-medium rounded-full">

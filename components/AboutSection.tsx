@@ -12,13 +12,31 @@ const AboutSection: React.FC = () => {
 
             {/* Video container */}
             <div className="relative z-10 bg-black rounded-lg overflow-hidden shadow-2xl">
-              <div className="relative">
-                {/* Video player */}
-                <video className="w-full h-full object-cover" controls preload="metadata">
-                  <source src="/videos/teamW.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+              <div className="relative z-10 bg-black rounded-lg overflow-hidden shadow-2xl">
+            <div className="relative">
+              {/* YouTube video embed */}
+              <iframe
+                className="w-full aspect-video"
+                src="https://www.youtube.com/embed/SFhndjv-PfY"
+                title="About Rwanda National Association of Deaf Women"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+
+              {/* Watch on YouTube button */}
+              <div className="absolute bottom-4 right-4">
+                <a
+                  href="https://www.youtube.com/watch?v=SFhndjv-PfY"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm font-medium flex items-center space-x-1 transition-colors"
+                >
+                  <span>Watch on YouTube</span>
+                </a>
               </div>
+            </div>
+          </div>
             </div>
           </div>
 

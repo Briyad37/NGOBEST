@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { Facebook, Twitter, Mail, Phone, MapPin } from "lucide-react"
+
+import { Facebook, Twitter, Mail, Phone, MapPin, Youtube } from "lucide-react"
 
 interface FooterProps {
   navigate: (
@@ -31,6 +32,9 @@ const Footer: React.FC<FooterProps> = ({ navigate }) => {
             <div className="flex space-x-4">
               <Facebook className="w-8 h-8 text-gray-400 hover:text-green-500 cursor-pointer transition-colors" />
               <Twitter className="w-8 h-8 text-gray-400 hover:text-green-500 cursor-pointer transition-colors" />
+              <a href="https://www.youtube.com/@rwandanationalassociationo" target="_blank" rel="noopener noreferrer">
+                <Youtube className="w-8 h-8 text-gray-400 hover:text-green-500 cursor-pointer transition-colors" />
+              </a>
             </div>
           </div>
 

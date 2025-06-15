@@ -5,7 +5,18 @@ import { FaPhoneAlt, FaClock, FaMapMarkerAlt } from "react-icons/fa"
 
 interface HeaderProps {
   navigate: (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "videos"
+      | "resources"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
     projectId?: number,
   ) => void
   currentPage: string
@@ -13,7 +24,18 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
   const handleNavigation = (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "videos"
+      | "resources"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
   ) => {
     if (navigate && typeof navigate === "function") {
       navigate(page)
@@ -102,9 +124,9 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
               Blogs
             </button>
             <button
-              onClick={() => handleNavigation("gallery")}
+              onClick={() => handleNavigation("videos")}
               className={`font-medium transition-colors ${
-                currentPage === "gallery"
+                currentPage === "videos"
                   ? "text-gray-900 border-b-2 border-green-500 pb-1"
                   : "text-gray-600 hover:text-green-500"
               }`}
@@ -112,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ navigate, currentPage }) => {
               Videos
             </button>
             <button
-              onClick={() => handleNavigation("gallery")}
+              onClick={() => handleNavigation("resources")}
               className={`font-medium transition-colors ${
                 currentPage === "resources"
                   ? "text-gray-900 border-b-2 border-green-500 pb-1"

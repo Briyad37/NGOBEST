@@ -15,10 +15,12 @@ interface ProjectsPageProps {
       | "about"
       | "blogs"
       | "gallery"
+      | "videos" // ADDED: Missing page type
+      | "resources" // ADDED: Missing page type
       | "login"
       | "dashboard"
       | "blog-detail",
-    projectId?: number
+    projectId?: number,
   ) => void
   currentPage: string
 }

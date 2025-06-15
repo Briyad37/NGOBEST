@@ -8,8 +8,19 @@ import type { Project } from "../types"
 
 interface ProjectsPageProps {
   navigate: (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
-    projectId?: number | string, // FIXED: Accept both number and string
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "videos"
+      | "resources"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
+    projectId?: number | string, // Keep both types for flexibility
   ) => void
   currentPage: string
 }
@@ -133,8 +144,6 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                     onClick={() => handleProjectClick(project, idx)}
                     className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105"
                   >
-                    {/* Debug info - REMOVED for cleaner UI */}
-
                     {/* Image section */}
                     {hasValidImage(project) ? (
                       <div className="w-full h-48 overflow-hidden bg-gray-100">

@@ -7,15 +7,26 @@ import { useProject } from "../hooks/useProject"
 
 interface ProjectBlogPageProps {
   navigate: (
-    page: "home" | "projects" | "project-blog" | "about" | "blogs" | "gallery" | "login" | "dashboard" | "blog-detail",
+    page:
+      | "home"
+      | "projects"
+      | "project-blog"
+      | "about"
+      | "blogs"
+      | "gallery"
+      | "videos"
+      | "resources"
+      | "login"
+      | "dashboard"
+      | "blog-detail",
     projectId?: number | string,
   ) => void
-  projectId: number | string // FIXED: Accept both number and string
+  projectId: number | string
   currentPage: string
 }
 
 const ProjectBlogPage: React.FC<ProjectBlogPageProps> = ({ navigate, projectId, currentPage }) => {
-  const { project, loading, error } = useProject(projectId)
+  const { project, loading, error, isUsingFallback } = useProject(projectId)
 
   if (loading) {
     return (

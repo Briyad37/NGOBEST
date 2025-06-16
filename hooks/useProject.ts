@@ -8,6 +8,7 @@ export function useProject(projectId: number | string) {
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isUsingFallback, setIsUsingFallback] = useState(false)
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -25,19 +26,27 @@ export function useProject(projectId: number | string) {
         console.log("Project ID:", projectId)
         console.log("Project ID type:", typeof projectId)
 
-        // Fetch from real API
+        // Fetch from API or fallback
         const response = await projectService.getProjectById(projectId)
 
         console.log("API Response:", response)
         console.log("Response success:", response.success)
         console.log("Response data:", response.data)
-        console.log("Response error:", response.error)
+        console.log("Response message:", response.message)
 
         if (response.success && response.data) {
           console.log("✅ Project fetched successfully:", response.data.title)
           setProject(response.data)
+
+          // Check if we're using fallback data
+          const usingFallback = response.message?.includes("fallback") || false
+          setIsUsingFallback(usingFallback)
+
+          if (usingFallback) {
+            console.log("📋 Using fallback project")
+          }
         } else {
-          console.error("❌ API Error:", response.error)
+          console.error("❌ Failed to fetch project:", response.error)
           setError(response.error || "Project not found")
         }
       } catch (err) {
@@ -51,5 +60,10 @@ export function useProject(projectId: number | string) {
     fetchProject()
   }, [projectId])
 
-  return { project, loading, error }
+  return {
+    project,
+    loading,
+    error,
+    isUsingFallback,
+  }
 }

@@ -20,13 +20,13 @@ interface ProjectsPageProps {
       | "login"
       | "dashboard"
       | "blog-detail",
-    projectId?: number | string, // Keep both types for flexibility
+    projectId?: number | string,
   ) => void
   currentPage: string
 }
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) => {
-  const { projects, loading, error } = useProjects()
+  const { projects, loading, error, isUsingFallback } = useProjects()
   const [localError, setError] = useState<string | null>(null)
 
   // Debug the projects data structure
@@ -37,9 +37,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
       console.log("First project full object:", projects[0])
       console.log("First project keys:", Object.keys(projects[0]))
       console.log("First project _id:", projects[0]._id)
+      console.log("Using fallback data:", isUsingFallback)
       console.log("========================")
     }
-  }, [projects])
+  }, [projects, isUsingFallback])
 
   // Function to check if image URL is valid (not PDF)
   const hasValidImage = (project: Project) => {
@@ -132,7 +133,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
             </div>
           ) : projects.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-600">No projects found in API</p>
+              <p className="text-gray-600">No projects found</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -145,23 +146,36 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                     className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105"
                   >
                     {/* Image section */}
-                    {hasValidImage(project) ? (
-                      <div className="w-full h-48 overflow-hidden bg-gray-100">
-                        <img
-                          src={getImageUrl(project) || ""}
-                          alt={project.title}
-                          className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.style.display = "none"
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-full h-48 bg-gray-100 flex items-center justify-center">
-                        <div className="text-gray-400 text-sm">No Image Available</div>
-                      </div>
-                    )}
+                    <div className="w-full h-48 overflow-hidden bg-gray-100">
+                      <img
+                        src={
+                          getImageUrl(project) ||
+                          `https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=400&h=300&fit=crop&crop=center` ||
+                          "/placeholder.svg"
+                        }
+                        alt={project.title}
+                        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          // Use a CSS-only fallback instead of another image that might fail
+                          target.style.display = "none"
+                          // Show the parent div's fallback content instead
+                          const parent = target.parentElement
+                          if (parent) {
+                            parent.innerHTML = `
+      <div class="w-full h-48 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+        <div class="text-center">
+          <svg class="w-12 h-12 text-green-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          <div class="text-green-600 text-sm font-medium">Project Image</div>
+        </div>
+      </div>
+    `
+                          }
+                        }}
+                      />
+                    </div>
 
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-3">
@@ -178,7 +192,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ navigate, currentPage }) =>
                         <span className="text-green-500 font-medium hover:text-green-600 transition-colors">
                           Read More →
                         </span>
-                        <span className="text-xs text-gray-400">API Data</span>
+                        <span className="text-xs text-gray-400">Learn More</span>
                       </div>
                     </div>
                   </div>
